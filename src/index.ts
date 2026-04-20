@@ -149,6 +149,11 @@ async function gateQuality(callerId: string): Promise<unknown> {
   return res.json();
 }
 
+async function gatePricing(): Promise<unknown> {
+  const res = await fetch(`${FW_GATE_URL}/gate/pricing`);
+  return res.json();
+}
+
 // fw_guard_execute — evaluate + guard check + outcome reporting
 // Developer passes the trade params; MCP returns verdict + what to do
 async function gateGuardExecute(params: {
@@ -306,6 +311,12 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
         required: ["caller_id"],
       },
     },
+    {
+      name: "fw_gate_pricing",
+      description:
+        "FW_PRICING_v1.0 — neutral pricing schema. price = 1 execution_credit / token = settlement method. Returns accepted_assets (STX, BTC, USDC, ETH), settlement_layer (x402), and full endpoint pricing. Asset-agnostic by design. FREE.",
+      inputSchema: { type: "object", properties: {}, required: [] },
+    },
   ],
 }));
 
@@ -358,6 +369,8 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
       result = await gateLeaderboard();
     } else if (name === "fw_gate_quality") {
       result = await gateQuality(String(args.caller_id));
+    } else if (name === "fw_gate_pricing") {
+      result = await gatePricing();
     } else {
       throw new Error(`Unknown tool: ${name}`);
     }
