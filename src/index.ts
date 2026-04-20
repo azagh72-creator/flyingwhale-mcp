@@ -144,6 +144,11 @@ async function gateLeaderboard(): Promise<unknown> {
   return res.json();
 }
 
+async function gateQuality(callerId: string): Promise<unknown> {
+  const res = await fetch(`${FW_GATE_URL}/gate/quality/${encodeURIComponent(callerId)}`);
+  return res.json();
+}
+
 // fw_guard_execute — evaluate + guard check + outcome reporting
 // Developer passes the trade params; MCP returns verdict + what to do
 async function gateGuardExecute(params: {
@@ -289,6 +294,18 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
         "Get the FW Gate leaderboard — top verified agents ranked by certified evaluations. Social proof layer. Unverified bots not listed. FREE.",
       inputSchema: { type: "object", properties: {}, required: [] },
     },
+    {
+      name: "fw_gate_quality",
+      description:
+        "Get FW_QUALITY_SCORING_v1.0 score for any caller_id. Returns execution quality tier (UNPROVEN → ELITE), accuracy %, confidence weight multiplier, and benefits. Bloomberg execution quality layer. FREE.",
+      inputSchema: {
+        type: "object",
+        properties: {
+          caller_id: { type: "string", description: "The bot/caller identifier to look up" },
+        },
+        required: ["caller_id"],
+      },
+    },
   ],
 }));
 
@@ -339,6 +356,8 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
       result = await gateAccuracy();
     } else if (name === "fw_gate_leaderboard") {
       result = await gateLeaderboard();
+    } else if (name === "fw_gate_quality") {
+      result = await gateQuality(String(args.caller_id));
     } else {
       throw new Error(`Unknown tool: ${name}`);
     }
