@@ -1,12 +1,12 @@
 {
-  "name": "fw-gate-mcp",
-  "version": "1.0.1",
-  "description": "Flying Whale Gate — Execution Validity Proof Layer for sovereign agent economies",
-  "mcpName": "io.flyingwhale/gate",
+  "name": "flying-whale-core",
+  "version": "2.0.0",
+  "description": "Flying Whale Private Core — Sovereign Agent OS v3.0. PROPRIETARY — ALL RIGHTS RESERVED. zaghmout.btc | ERC-8004 #54",
+  "mcpName": "io.flyingwhale/core",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
-    "flyingwhale-mcp": "dist/index.js"
+    "flying-whale-core": "./dist/index.js"
   },
   "scripts": {
     "build": "tsc",
@@ -15,36 +15,39 @@
     "prepublishOnly": "npm run build"
   },
   "files": [
-    "dist",
-    "README.md"
+    "dist"
   ],
   "keywords": [
-    "mcp",
-    "model-context-protocol",
     "flying-whale",
-    "fw-gate",
-    "execution-validity",
+    "mcp",
+    "whale-gate",
+    "sovereign-agent",
+    "epc-1",
     "stacks",
-    "x402",
-    "defi",
-    "claude"
+    "session-guard"
   ],
   "author": "zaghmout.btc | Flying Whale | ERC-8004 #54",
   "license": "UNLICENSED",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/azagh72-creator/flyingwhale-mcp.git"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.27.1",
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "@noble/hashes": "^2.2.0",
     "@stacks/network": "^7.3.1",
     "@stacks/transactions": "^7.3.1",
     "@stacks/wallet-sdk": "^7.2.0",
-    "dotenv": "^17.3.1"
+    "dotenv": "^17.3.1",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@types/node": "^22.19.13",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
